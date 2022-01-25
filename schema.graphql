@@ -1,0 +1,472 @@
+type Land @entity {
+  "The tokenId on the Motif Contract"
+  id: ID!
+
+  "The transaction hash the land was created at"
+  transactionHash: String!
+
+  "The current owner of the Land"
+  owner: User!
+
+  "The creator of the Land"
+  creator: User!
+
+  "The previous owner of the Motif Land's LandExchange"
+  prevOwner: User!
+
+  "The approved user of the Land"
+  approved: User
+
+  "The sha256 hash of the land's content"
+  contentHash: Bytes!
+
+  "The sha256 hash of the land's metadata"
+  metadataHash: Bytes!
+
+  "The uri of the content"
+  contentURI: String!
+
+  "The uri of the metadata"
+  metadataURI: String!
+
+  "xCoordinate of Land"
+  xCoordinate: BigInt!
+
+  "yCoordinate of Land"
+  yCoordinate: BigInt!
+
+  "The bid share for the current owner of the Land"
+  ownerBidShare: BigInt!
+
+  "The bid share for the creator of the Land"
+  creatorBidShare: BigInt!
+
+  "The bid share for the previous owner of the Land's landExchange"
+  prevOwnerBidShare: BigInt!
+
+  "The timestamp of the block the Land was minted in"
+  createdAtTimestamp: BigInt!
+
+  "The number of the block the Land was minted in"
+  createdAtBlockNumber: BigInt!
+
+  "The timestamp of the block the Land was burned in"
+  burnedAtTimeStamp: BigInt
+
+  "The number of the block the Land was burned in"
+  burnedAtBlockNumber: BigInt
+
+  "The current Ask of the Land"
+  currentAsk: Ask @derivedFrom(field: "land")
+
+  "The current Bids on the Land"
+  currentBids: [Bid!] @derivedFrom(field: "land")
+
+  "The InactiveAsks of the Land"
+  inactiveAsks: [InactiveAsk!] @derivedFrom(field: "land")
+
+  "The InactiveBids of the Land"
+  inactiveBids: [InactiveBid!] @derivedFrom(field: "land")
+
+  "The transfers of the Land"
+  transfers: [Transfer!] @derivedFrom(field: "land")
+
+  "The ReserveLists of the Land"
+  reserveLists: [ReserveList!] @derivedFrom(field: "land")
+}
+
+type User @entity {
+  "Ethereum Address"
+  id: ID!
+
+  "Users that have been granted `ApprovalForAll` Land of the User's Collection"
+  authorizedUsers: [User!]
+
+  "The Land the User owns"
+  collection: [Land!]! @derivedFrom(field: "owner")
+
+  "The Land the User created"
+  creations: [Land!]! @derivedFrom(field: "creator")
+
+  "The active Bids made by the User"
+  currentBids: [Bid!] @derivedFrom(field: "bidder")
+}
+
+type Ask @entity {
+  "<tokenId>-<ownerAddress>"
+  id: ID!
+
+  "The Land associated with the Ask"
+  land: Land!
+
+  "Transaction hash the ask was created at"
+  transactionHash: String!
+
+  "The Currency of the Ask"
+  currency: Currency!
+
+  "The amount of Currency of the Ask"
+  amount: BigInt!
+
+  "The owner of the Ask"
+  owner: User!
+
+  "The timestamp of the block the Ask was created in"
+  createdAtTimestamp: BigInt!
+
+  "The number of the block the Ask created in"
+  createdAtBlockNumber: BigInt!
+}
+
+type Bid @entity {
+  "<token-id>-<bidderAddress>"
+  id: ID!
+
+  "Transaction hash the bid was created at"
+  transactionHash: String!
+
+  "The Land associated with the Bid"
+  land: Land!
+
+  "The Currency of the Bid"
+  currency: Currency!
+
+  "The amount of Currency of the Bid"
+  amount: BigInt!
+
+  "The sellOnShare of the Bid"
+  sellOnShare: BigInt!
+
+  "The bidder of the Bid"
+  bidder: User!
+
+  "The recipient of Land if the Bid is accepted"
+  recipient: User!
+
+  "The timestamp of the block the Bid was created in"
+  createdAtTimestamp: BigInt!
+
+  "The number of the block the Bid was created in"
+  createdAtBlockNumber: BigInt!
+}
+
+"The Types for LandExchangeEvents (Asks, Bids)"
+enum LandExchangeEventType {
+  Finalized
+  Removed
+}
+
+type InactiveBid @entity {
+  "<tokenId>-<transactionHash>-<logIndex>"
+  id: ID!
+
+  "Transaction hash the bid was created at"
+  transactionHash: String!
+
+  "The Land associated with the InactiveBid"
+  land: Land!
+
+  "The reason why this Bid is Inactive"
+  type: LandExchangeEventType!
+
+  "The Currency of the InactiveBid"
+  currency: Currency!
+
+  "The amount of Currency of the InactiveBid"
+  amount: BigInt!
+
+  "The sellOnShare of the InactiveBid"
+  sellOnShare: BigInt!
+
+  "The bidder of the InactiveBid"
+  bidder: User!
+
+  "The recipient of the InactiveBid"
+  recipient: User!
+
+  "The timestamp of the block the original Bid was created in"
+  createdAtTimestamp: BigInt!
+
+  "The number of the block the original Bid was created in"
+  createdAtBlockNumber: BigInt!
+
+ "The timestamp of the block the original Bid was inactivated in"
+  inactivatedAtTimestamp: BigInt!
+
+  "The number of the block the original Bid was inactivated in"
+  inactivatedAtBlockNumber: BigInt!
+}
+
+type InactiveAsk @entity {
+  "<tokenId>-<transactionHash>-<logIndex>"
+  id: ID!
+
+  "Transaction hash the ask was created at"
+  transactionHash: String!
+
+  "The Land associated with the InactiveAsk"
+  land: Land!
+
+  "The why this Ask is Inactive"
+  type: LandExchangeEventType!
+
+  "The Currency of the InactiveAsk"
+  currency: Currency!
+
+  "The amount of Currency of the InactiveAsk"
+  amount: BigInt!
+
+  "The owner of the InactiveAsk"
+  owner: User!
+
+  "The timestamp of the block the original Ask was created in"
+  createdAtTimestamp: BigInt!
+
+  "The number of the block the original Ask was created in"
+  createdAtBlockNumber: BigInt!
+
+  "The timestamp of the block the original Ask was inactivated in"
+  inactivatedAtTimestamp: BigInt!
+
+  "The number of the block the original Ask was inactivated in"
+  inactivatedAtBlockNumber: BigInt!
+}
+
+type Currency @entity {
+  "The address of the Currency"
+  id: ID!
+
+  "The name of the Currency"
+  name: String!
+
+  "The symbol of the Currency"
+  symbol: String!
+
+  "The decimals of the Currency"
+  decimals: Int
+
+  "Total Bid Liquidity of the Currency on all Motif Land"
+  liquidity: BigInt!
+
+  "The active Bids denominated in the Currency"
+  activeBids: [Bid!] @derivedFrom(field: "currency")
+
+  "The active Asks denominated in the Currency"
+  activeAsks: [Ask!] @derivedFrom(field: "currency")
+
+  "The InactiveBids denominated in the Currency"
+  inactiveBids: [InactiveBid!] @derivedFrom(field: "currency")
+
+  "The InactiveAsks denominated in the Currency"
+  inactiveAsks: [InactiveAsk!] @derivedFrom(field: "currency")
+}
+
+type Transfer @entity {
+  "<tokenId>-<transactionHash>-<logIndex>"
+  id: ID!
+
+  "Transaction hash for the transfer"
+  transactionHash: String!
+
+  "The Land associated with the Transfer"
+  land: Land!
+
+  "The User transferring the Land"
+  from: User!
+
+  "The User receiving the Land"
+  to: User!
+
+  "The timestamp of the block the Transfer was created in"
+  createdAtTimestamp: BigInt!
+
+  "The number of the block the Transfer was created in"
+  createdAtBlockNumber: BigInt!
+}
+
+"The Types of URI Updates"
+enum URIUpdateType {
+  Content
+  Metadata
+}
+
+type URIUpdate @entity {
+  "<tokenId>-<transactionHash>-<logIndex>"
+  id: ID!
+
+  "The transaction has the uri update happened at"
+  transactionHash: String!
+
+  "The Type of URIUpdate"
+  type: URIUpdateType!
+
+  "The previous uri"
+  from: String!
+
+  "The new uri"
+  to: String!
+
+  "The Land associated with the URIUpdate"
+  land: Land!
+
+  "The owner of the Land"
+  owner: User!
+
+  "The updater of the Land's URI"
+  updater: User!
+
+  "The timestamp of the block the URIUpdate was created in"
+  createdAtTimestamp: BigInt!
+
+  "The number of the block the URIUpdate was created in"
+  createdAtBlockNumber: BigInt!
+}
+
+enum ReserveListBidType {
+  Active
+  Refunded
+  Final
+}
+
+type ReserveListBid @entity {
+  "<listId>-<txHash>-<logIndex>"
+  id: ID!
+
+  "The transaction hash the reserve list big was created at"
+  transactionHash: String!
+
+  "The Reserve list associated with the Bid"
+  reserveList: ReserveList!
+
+  "The amount of the Bid"
+  amount: BigInt!
+
+  "The bidder of the Bid"
+  bidder: User!
+
+  "The type of bid (active, refunded, final)"
+  bidType: ReserveListBidType!
+
+  "The timestamp of the block the Bid was created in"
+  createdAtTimestamp: BigInt!
+
+  "The number of the block the Bid was created in"
+  createdAtBlockNumber: BigInt!
+}
+
+type InactiveReserveListBid @entity {
+  "<listId>-<txHash>-<logIndex>"
+  id: ID!
+
+  "The transaction hash the reserve list big was created at"
+  transactionHash: String!
+
+  "The Reserve list associated with the Bid"
+  reserveList: ReserveList!
+
+  "The amount of the Bid"
+  amount: BigInt!
+
+  "The bidder of the Bid"
+  bidder: User!
+
+  "The type of bid (active, refunded, final)"
+  bidType: ReserveListBidType!
+
+  "The timestamp of the block the bid was inactivated at (via outbid, cancellation, winning bid)"
+  bidInactivatedAtTimestamp: BigInt!
+
+  "The number of the block the bid was inactivated at (via outbid, cancellation, winning bid)"
+  bidInactivatedAtBlockNumber: BigInt!
+
+  "The timestamp of the block the Bid was created in"
+  createdAtTimestamp: BigInt!
+
+  "The number of the block the Bid was created in"
+  createdAtBlockNumber: BigInt!
+}
+enum ReserveListStatus {
+  Pending
+  Active
+  Canceled
+  Finished
+}
+
+type ReserveList @entity {
+  "ID of the list from contract, autoincrementing int"
+  id: ID!
+
+  "Transaction hash where the reserve list was created"
+  transactionHash: String!
+
+  "The originating token contract for this list"
+  tokenContract: String!
+
+  "The token ID for this list"
+  tokenId: BigInt!
+
+  "<tokenContract>-<tokenId>"
+  token: String!
+
+  "The land for the list, if it is a motif NFT"
+  land: Land
+
+  "Whether or not the list has been approved by the intermediary"
+  approved: Boolean!
+
+  "LandListing start timestamp"
+  startsAt: BigInt
+
+  "The length of time the list is intended to run for, after the first bid is made"
+  duration: BigInt!
+
+  "The expected end of list timestamp, which can change if bids were placed within the last 15 minutes, and is not set until the first bid is placed"
+  expectedEndTimestamp: BigInt
+
+  "The time the first bid was placed"
+  firstBidTime: BigInt
+
+  "The minimum price of the first bid"
+  listPrice: BigInt!
+
+  "Type of list. 1 for bidding, 2 for drop list, 3 for fixed price."
+  listType: Int!
+
+  "The sale percentage to send to the intermediary"
+  intermediaryFeePercentage: Int!
+
+  "The address that should receive the funds once the NFT is sold"
+  tokenOwner: User!
+
+  "The address of the list's intermediary"
+  intermediary: User!
+
+  "The address of the ERC-20 currency to run the list with, or 0x0 for ETH"
+  listCurrency: Currency!
+
+  status: ReserveListStatus!
+
+  "The current bid on this list"
+  currentBid: ReserveListBid
+
+  "The previous bids on this list"
+  previousBids: [InactiveReserveListBid!]  @derivedFrom(field: "reserveList")
+
+  "The time the list was approved"
+  approvedTimestamp: BigInt
+
+  "The number of the block the list was Approved"
+  approvedBlockNumber: BigInt
+
+  "The timestamp of the block the Transfer was created in"
+  createdAtTimestamp: BigInt!
+
+  "The number of the block the Transfer was created in"
+  createdAtBlockNumber: BigInt!
+
+  "The timestamp at which the list end function was called"
+  finalizedAtTimestamp: BigInt
+
+  "The block number at which the list end function was called"
+  finalizedAtBlockNumber: BigInt
+}
