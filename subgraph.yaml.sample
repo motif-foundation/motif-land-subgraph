@@ -1,16 +1,15 @@
 specVersion: 0.0.3
 description: Motif Land Subgraph
-repository: https://github.com/motifdev/motif-land-subgraph
+repository: https://github.com/motif-foundation/motif-land-subgraph
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: Land
     network: motif
-    source:
-      address: "0xD5Bb184D82e80A9277f23Bb378Ec9280fC89b7a5"
+    source: 
       abi: Land
-      startBlock: 8450
+      startBlock: 55119
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -37,10 +36,9 @@ dataSources:
   - kind: ethereum/contract
     name: LandExchange
     network: motif
-    source:
-      address: "0xe09AB617343B4eA9af96be95D216FA08B8e7a7B6"
+    source: 
       abi: LandExchange
-      startBlock: 8450
+      startBlock: 55119
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -74,18 +72,17 @@ dataSources:
   - kind: ethereum/contract
     name: LandListing
     network: motif
-    source:
-      address: "0x3F3d28c137B7cb5233f508A5567cA2Af36375E02"
+    source: 
       abi: LandListing
-      startBlock: 8450
+      startBlock: 55119
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - ReserveList
-        - ReserveListBid
-        - InactiveReserveListBid
+        - ReserveListing
+        - ReserveListingBid
+        - InactiveReserveListingBid
       abis:
         - name: LandListing
           file: ./abis/LandListing.json
@@ -96,20 +93,20 @@ dataSources:
         - name: ERC20NameBytes
           file: ./abis/ERC20NameBytes.json
       eventHandlers:
-        - event: ListCreated(indexed uint256,indexed uint256,indexed address,uint256,uint256,uint256,uint8,address,address,uint8,address) 
-          handler: handleReserveListCreated
-        - event: ListApprovalUpdated(indexed uint256,indexed uint256,indexed address,bool)
-          handler: handleReserveListApprovalUpdate
-        - event: ListDropApprovalUpdated(indexed uint256,indexed uint256,indexed address,bool,uint256)
-          handler: handleReserveListDropApprovalUpdate 
-        - event: ListListPriceUpdated(indexed uint256,indexed uint256,indexed address,uint256)
-          handler: handleReserveListListPriceUpdate
-        - event: ListBid(indexed uint256,indexed uint256,indexed address,address,uint256,bool,bool)
-          handler: handleReserveListBid
-        - event: ListDurationExtended(indexed uint256,indexed uint256,indexed address,uint256)
-          handler: handleReserveListDurationExtended
-        - event: ListEnded(indexed uint256,indexed uint256,indexed address,address,address,address,uint256,uint256,address)
-          handler: handleReserveListEnded
-        - event: ListCanceled(indexed uint256,indexed uint256,indexed address,address)
-          handler: handleReserveListCanceled
+        - event: ListingCreated(indexed uint256,indexed uint256,indexed address,uint256,uint256,uint256,uint8,address,address,uint8,address) 
+          handler: handleReserveListingCreated
+        - event: ListingApprovalUpdated(indexed uint256,indexed uint256,indexed address,bool)
+          handler: handleReserveListingApprovalUpdate
+        - event: ListingDropApprovalUpdated(indexed uint256,indexed uint256,indexed address,bool,uint256)
+          handler: handleReserveListingDropApprovalUpdate 
+        - event: ListingListPriceUpdated(indexed uint256,indexed uint256,indexed address,uint256)
+          handler: handleReserveListingListPriceUpdate
+        - event: ListingBid(indexed uint256,indexed uint256,indexed address,address,uint256,bool,bool)
+          handler: handleReserveListingBid
+        - event: ListingDurationExtended(indexed uint256,indexed uint256,indexed address,uint256)
+          handler: handleReserveListingDurationExtended
+        - event: ListingEnded(indexed uint256,indexed uint256,indexed address,address,address,address,uint256,uint256,address)
+          handler: handleReserveListingEnded
+        - event: ListingCanceled(indexed uint256,indexed uint256,indexed address,address)
+          handler: handleReserveListingCanceled
       file: ./src/landListing.ts

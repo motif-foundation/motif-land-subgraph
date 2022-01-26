@@ -1,6 +1,9 @@
 type Land @entity {
-  "The tokenId on the Motif Contract"
+  "The token address and tokenId combined on the contract"
   id: ID!
+
+  "Token ID fo the token"
+  tokenId: String!
 
   "The transaction hash the land was created at"
   transactionHash: String!
@@ -23,17 +26,17 @@ type Land @entity {
   "The sha256 hash of the land's metadata"
   metadataHash: Bytes!
 
+  "Token contract of the token"
+  tokenContract: String!
+
+  "Exchange contract of the token"
+  exchangeContract: String!
+
   "The uri of the content"
   contentURI: String!
 
   "The uri of the metadata"
   metadataURI: String!
-
-  "xCoordinate of Land"
-  xCoordinate: BigInt!
-
-  "yCoordinate of Land"
-  yCoordinate: BigInt!
 
   "The bid share for the current owner of the Land"
   ownerBidShare: BigInt!
@@ -71,8 +74,8 @@ type Land @entity {
   "The transfers of the Land"
   transfers: [Transfer!] @derivedFrom(field: "land")
 
-  "The ReserveLists of the Land"
-  reserveLists: [ReserveList!] @derivedFrom(field: "land")
+  "The ReserveListings of the Land"
+  reserveListings: [ReserveListing!] @derivedFrom(field: "land")
 }
 
 type User @entity {
@@ -322,13 +325,13 @@ type URIUpdate @entity {
   createdAtBlockNumber: BigInt!
 }
 
-enum ReserveListBidType {
+enum ReserveListingBidType {
   Active
   Refunded
   Final
 }
 
-type ReserveListBid @entity {
+type ReserveListingBid @entity {
   "<listId>-<txHash>-<logIndex>"
   id: ID!
 
@@ -336,7 +339,7 @@ type ReserveListBid @entity {
   transactionHash: String!
 
   "The Reserve list associated with the Bid"
-  reserveList: ReserveList!
+  reserveListing: ReserveListing!
 
   "The amount of the Bid"
   amount: BigInt!
@@ -345,7 +348,7 @@ type ReserveListBid @entity {
   bidder: User!
 
   "The type of bid (active, refunded, final)"
-  bidType: ReserveListBidType!
+  bidType: ReserveListingBidType!
 
   "The timestamp of the block the Bid was created in"
   createdAtTimestamp: BigInt!
@@ -354,7 +357,7 @@ type ReserveListBid @entity {
   createdAtBlockNumber: BigInt!
 }
 
-type InactiveReserveListBid @entity {
+type InactiveReserveListingBid @entity {
   "<listId>-<txHash>-<logIndex>"
   id: ID!
 
@@ -362,7 +365,7 @@ type InactiveReserveListBid @entity {
   transactionHash: String!
 
   "The Reserve list associated with the Bid"
-  reserveList: ReserveList!
+  reserveListing: ReserveListing!
 
   "The amount of the Bid"
   amount: BigInt!
@@ -371,7 +374,7 @@ type InactiveReserveListBid @entity {
   bidder: User!
 
   "The type of bid (active, refunded, final)"
-  bidType: ReserveListBidType!
+  bidType: ReserveListingBidType!
 
   "The timestamp of the block the bid was inactivated at (via outbid, cancellation, winning bid)"
   bidInactivatedAtTimestamp: BigInt!
@@ -385,14 +388,14 @@ type InactiveReserveListBid @entity {
   "The number of the block the Bid was created in"
   createdAtBlockNumber: BigInt!
 }
-enum ReserveListStatus {
+enum ReserveListingStatus {
   Pending
   Active
   Canceled
   Finished
 }
 
-type ReserveList @entity {
+type ReserveListing @entity {
   "ID of the list from contract, autoincrementing int"
   id: ID!
 
@@ -401,6 +404,8 @@ type ReserveList @entity {
 
   "The originating token contract for this list"
   tokenContract: String!
+
+ 
 
   "The token ID for this list"
   tokenId: BigInt!
@@ -444,13 +449,13 @@ type ReserveList @entity {
   "The address of the ERC-20 currency to run the list with, or 0x0 for ETH"
   listCurrency: Currency!
 
-  status: ReserveListStatus!
+  status: ReserveListingStatus!
 
   "The current bid on this list"
-  currentBid: ReserveListBid
+  currentBid: ReserveListingBid
 
   "The previous bids on this list"
-  previousBids: [InactiveReserveListBid!]  @derivedFrom(field: "reserveList")
+  previousBids: [InactiveReserveListingBid!]  @derivedFrom(field: "reserveListing")
 
   "The time the list was approved"
   approvedTimestamp: BigInt

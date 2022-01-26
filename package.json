@@ -2,12 +2,12 @@
   "name": "motif-item-subgraph",
   "version": "1.0.0",
   "scripts": {
-    "create-graph": "graph create motifdev/motif-land-subgraph --node https://api.thegraph.com/deploy/",
-    "create-local": "graph create motifdev/motif-land-subgraph --node http://127.0.0.1:8020",
+    "create-graph": "graph create motif-foundation/motif-land-subgraph --node https://api.thegraph.com/deploy/",
+    "create-local": "graph create motif-foundation/motif-land-subgraph --node http://127.0.0.1:8020",
     "codegen": "graph codegen --output-dir types",
     "build": "graph build",
-    "deploy": "graph deploy motifdev/motif-land-subgraph --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
-    "deploy-local": "graph deploy motifdev/motif-land-subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020"
+    "deploy": "graph deploy motif-foundation/motif-land-subgraph --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+    "deploy-local": "graph deploy motif-foundation/motif-land-subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020"
   },
   "devDependencies": {
     "@ethersproject/providers": "^5.0.16",
