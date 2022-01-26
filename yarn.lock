@@ -457,10 +457,18 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@motif-foundation/asset@^1.0.6", "@motif-foundation/asset@^1.0.8":
+"@motif-foundation/asset@^1.0.8":
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@motif-foundation/asset/-/asset-1.0.8.tgz#2ec2669b12862500898ffb5d5bc73239e66a4d3c"
   integrity sha512-eAkYBWKtReIZe1TaEUYeSzMiA2qOMf/dAmUxWu78w06c/vYgyRR/7GkufFngmB+tpsGqSLfWVbAl5loIg7/lKQ==
+  dependencies:
+    ethers "^5.0.19"
+    truffle-flattener "^1.5.0"
+
+"@motif-foundation/asset@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@motif-foundation/asset/-/asset-1.0.9.tgz#1e1879c5f6e381bb850853009d744197619575c7"
+  integrity sha512-2hufBYYvgrDCVMUlEu7Qgw4Y9e8zK9vdI/turtHhbDlAatUqDFmrKgBimEdK22UEwas0Wx1e/BdmZ0td6J34yg==
   dependencies:
     ethers "^5.0.19"
     truffle-flattener "^1.5.0"
@@ -510,12 +518,12 @@
     minimist "^1.2.5"
     solidity-coverage "^0.7.16"
 
-"@motif-foundation/sdk@^1.0.13":
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/@motif-foundation/sdk/-/sdk-1.0.13.tgz#5f954653b0093305a43bd9142a0f3d75b5b206a5"
-  integrity sha512-jQhlKMzloP+sKDq9AIDsmB5xvw6jLEy2CF/Up2jkGng32aanl27H88CGxNjGjuCdOK+9oPHtG8eZQxVRTpBKFw==
+"@motif-foundation/sdk@^1.0.14":
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/@motif-foundation/sdk/-/sdk-1.0.14.tgz#c45c31400c8e9d169eeb09d05c71709de0b023a9"
+  integrity sha512-GHllTsOjRTSW4HzWRDpuRMQcZZTQQQFrHszX1sZoZmuqxOzBqX5oOCYTIOaWiUSgBIgUMBsv1rqYVy8WYYp5+Q==
   dependencies:
-    "@motif-foundation/asset" "^1.0.6"
+    "@motif-foundation/asset" "^1.0.9"
     "@motif-foundation/avatar-metadata" "^1.0.1"
     "@motif-foundation/item-metadata" "^1.0.2"
     "@motif-foundation/land-metadata" "^1.0.1"

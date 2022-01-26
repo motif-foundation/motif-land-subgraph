@@ -38,6 +38,12 @@ type Land @entity {
   "The uri of the metadata"
   metadataURI: String!
 
+  "xCoordinate of land"
+  xCoordinate: BigInt!
+
+  "yCoordinate of land"
+  yCoordinate: BigInt!
+
   "The bid share for the current owner of the Land"
   ownerBidShare: BigInt!
 

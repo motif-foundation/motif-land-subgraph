@@ -209,8 +209,7 @@ export function fetchCurrencyName(currencyAddress: Address): string {
  * @param createdAtBlockNumber
  */
 export function createLand(
-    id: string,
-    tokenId: string,
+    id: string, 
     transactionHash: string,
     owner: User,
     creator: User,
@@ -218,9 +217,9 @@ export function createLand(
     contentURI: string,
     contentHash: Bytes,
     metadataURI: string,
-    metadataHash: Bytes,
-    tokenContract: string,
-    exchangeContract: string,
+    metadataHash: Bytes, 
+    xCoordinate: BigInt, 
+    yCoordinate: BigInt, 
     creatorBidShare: BigInt,
     ownerBidShare: BigInt,
     prevOwnerBidShare: BigInt,
@@ -228,8 +227,7 @@ export function createLand(
     createdAtBlockNumber: BigInt
 ): Land {
 
-    let land = new Land(id) 
-    land.tokenId = tokenId
+    let land = new Land(id)  
     land.owner = owner.id
     land.transactionHash = transactionHash 
     land.creator = creator.id
@@ -237,9 +235,9 @@ export function createLand(
     land.contentURI = contentURI
     land.contentHash = contentHash
     land.metadataURI = metadataURI
-    land.metadataHash = metadataHash
-    land.tokenContract = tokenContract
-    land.exchangeContract = exchangeContract
+    land.metadataHash = metadataHash 
+    land.xCoordinate = xCoordinate 
+    land.yCoordinate = yCoordinate 
     land.creatorBidShare = creatorBidShare
     land.ownerBidShare = ownerBidShare
     land.prevOwnerBidShare = prevOwnerBidShare
@@ -479,8 +477,7 @@ export function createReserveListing(
     id: string,
     transactionHash: string,
     tokenId: BigInt,
-    tokenContract: string,
-   // exchangeContract: string,
+    tokenContract: string, 
     land: Land | null,
     startsAt: BigInt,
     duration: BigInt,
@@ -497,8 +494,7 @@ export function createReserveListing(
 
     reserveListing.tokenId = tokenId
     reserveListing.transactionHash = transactionHash
-    reserveListing.tokenContract = tokenContract
-    //reserveListing.exchangeContract = exchangeContract
+    reserveListing.tokenContract = tokenContract 
     reserveListing.token = tokenContract.concat('-').concat(tokenId.toString())
     reserveListing.land = land ? land.id : null
     reserveListing.approved = false
