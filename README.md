@@ -25,8 +25,7 @@
 		nano subgraph.yaml
 		paste subgraph.yaml updated as above
 	copy the abis from Asset and Listing repos to abi folder
-	yarn codegen
-	yarn build
+	yarn codegen 
 	yarn create-local
 	yarn deploy-local
 	note the subgraph endpoints: 
