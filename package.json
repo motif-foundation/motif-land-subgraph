@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@motif-foundation/asset": "^1.0.21",
-    "@motif-foundation/listing": "^1.0.24",
-    "@motif-foundation/sdk": "^1.0.49"
+    "@motif-foundation/listing": "^1.0.27",
+    "@motif-foundation/sdk": "^1.0.61"
   } 
 }
